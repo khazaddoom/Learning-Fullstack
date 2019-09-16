@@ -15,8 +15,8 @@ ourApp.get('/', function(req, res) {
 });
 
 ourApp.post('/answer', function(req, res) {
-    console.log(req.body.answer)
-    if (req.body.answer ==='blue') {
+    const answer = (req.body.answer).toLowerCase();
+    if (answer ==='blue') {
         res.send(`
             <p>Yes ${req.body.answer}, that is correct!</p>
             <a href='/'>Back to homepage</a>
