@@ -7,7 +7,7 @@ ourApp.use(express.urlencoded({extended: false}));
 ourApp.get('/', function(req, res) {
     res.send(`
     <form action="/answer" method="POST">
-        <p>Type something here...?</p>
+        <p>What is the color of the sky on a bright sunny day?</p>
         <input name="answer" autoComplete="off">
         <button>Submit</button>
     </form>
@@ -15,14 +15,14 @@ ourApp.get('/', function(req, res) {
 });
 
 ourApp.post('/answer', function(req, res) {
-    if (req.body.answer =='Ganesh') {
+    if (req.body.answer ==='blue') {
         res.send(`
-            <p>Yes, that is correct!</p>
+            <p>Yes ${req.body.answer}, that is correct!</p>
             <a href='/'>Back to homepage</a>
         `);
     } else {
         res.send(`
-            <p>That is correct. Try again!</p>
+            <p>That is incorrect. Try again!</p>
             <a href='/'>Back to homepage</a>
         `);
     }
