@@ -15,6 +15,7 @@ ourApp.get('/', function(req, res) {
 });
 
 ourApp.post('/answer', function(req, res) {
+    console.log(req.body.answer)
     if (req.body.answer ==='blue') {
         res.send(`
             <p>Yes ${req.body.answer}, that is correct!</p>
