@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 
+app.use(express.urlencoded({
+  extended: false
+}))
+
 app.get('/', function(request, response) {
     response.send(`
     <!DOCTYPE html>
@@ -16,9 +20,9 @@ app.get('/', function(request, response) {
     <h1 class="display-4 text-center py-1">To-Do App</h1>
     
     <div class="jumbotron p-3 shadow-sm">
-      <form>
+      <form method="POST" action="/create-item">
         <div class="d-flex align-items-center">
-          <input autofocus autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
+          <input name="item" autofocus autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
           <button class="btn btn-primary">Add New Item</button>
         </div>
       </form>
@@ -54,6 +58,11 @@ app.get('/', function(request, response) {
 </html>
     `)
 });
+
+app.post('/create-item', function(request, response) {
+  console.log(request.body);
+  response.send('Thank you for submitting the form!')
+})
 
 app.listen(3000, function() {
     console.log('Server listening on Port 3000...')
