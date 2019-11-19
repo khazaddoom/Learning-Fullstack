@@ -60,7 +60,7 @@ app.get('/', function(request, response) {
 });
 
 app.post('/create-item', function(request, response) {
-  console.log(request.body);
+  console.log(request.body.item);
   response.send('Thank you for submitting the form!')
 })
 
