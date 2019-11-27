@@ -1,12 +1,31 @@
-const express = require('express');
-const app = express();
+let express = require('express');
+let mongodb = require('mongodb');
+let app = express();
+let db;
+
+let connectionString = 'mongodb+srv://ToDoAppUser:OeafkB6FMJn3JQPL@cluster0-ixsd4.mongodb.net/ToDoApp?retryWrites=true&w=majority';
+
+mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, client) {
+  
+  db = client.db();
+
+  app.listen(3000, function() {
+      console.log('Server listening on Port 3000...')
+  });
+
+})
 
 app.use(express.urlencoded({
   extended: false
 }))
 
 app.get('/', function(request, response) {
-    response.send(`
+
+  db.collection('items').find().toArray(function(err, items) {
+    console.table(items);
+  });
+
+  response.send(`
     <!DOCTYPE html>
 <html>
 <head>
@@ -36,34 +55,16 @@ app.get('/', function(request, response) {
           <button class="delete-me btn btn-danger btn-sm">Delete</button>
         </div>
       </li>
-      <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-        <span class="item-text">Fake example item #2</span>
-        <div>
-          <button class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
-          <button class="delete-me btn btn-danger btn-sm">Delete</button>
-        </div>
-      </li>
-      <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-        <span class="item-text">Fake example item #3</span>
-        <div>
-          <button class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
-          <button class="delete-me btn btn-danger btn-sm">Delete</button>
-        </div>
-      </li>
-    </ul>
-    
-  </div>
-  
+    </ul>    
+  </div>  
 </body>
 </html>
     `)
 });
 
 app.post('/create-item', function(request, response) {
-  console.log(request.body.item);
-  response.send('Thank you for submitting the form!')
+  db.collection('items').insertOne({text: request.body.item}, function() {
+    response.send('<h1>Successfully inserted a new ToDo to the Database!');
+  })
 })
 
-app.listen(3000, function() {
-    console.log('Server listening on Port 3000...')
-});
