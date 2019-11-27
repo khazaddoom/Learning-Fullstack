@@ -49,7 +49,7 @@
 
 let color = 'Blue'
 
-if (color == 'blue') {
+if (color === 'blue') {
     console.log('matched')
 } else {
     console.log('not matched')
