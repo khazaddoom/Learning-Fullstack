@@ -4,8 +4,13 @@ let app = express();
 let db;
 let connectionString = 'mongodb+srv://ToDoAppUser:OeafkB6FMJn3JQPL@cluster0-ixsd4.mongodb.net/ToDoApp?retryWrites=true&w=majority';
 
+// Allow and Serve external GET POST or other similar full page requests to our backend!
 app.use(express.urlencoded({extended: false}))
+
+// Allow and serve Asynchronous requests to our backend
 app.use(express.json())
+
+// Serve a static files from public folder as directly from root path it is not possible
 app.use(express.static('public'));
 
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, client) {
