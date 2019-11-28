@@ -2,8 +2,10 @@ let express = require('express');
 let mongodb = require('mongodb');
 let app = express();
 let db;
-
 let connectionString = 'mongodb+srv://ToDoAppUser:OeafkB6FMJn3JQPL@cluster0-ixsd4.mongodb.net/ToDoApp?retryWrites=true&w=majority';
+
+app.use(express.urlencoded({extended: false}))
+app.use(express.static('public'));
 
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, client) {
   
@@ -15,9 +17,7 @@ mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: t
 
 })
 
-app.use(express.urlencoded({
-  extended: false
-}))
+
 
 app.get('/', function(request, response) {
   
@@ -56,6 +56,7 @@ app.get('/', function(request, response) {
           }).join('')}
         </ul>    
       </div>  
+      <script src="browser.js"></script>
     </body>
     </html>
     `);    
