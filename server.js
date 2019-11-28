@@ -21,10 +21,7 @@ app.use(express.urlencoded({
 
 app.get('/', function(request, response) {
   
-  let itemsHtml = '';
-
-  db.collection('items').find().toArray(function(err, items) {
-    
+  db.collection('items').find().toArray(function(err, items) {    
     response.send(`
     <!DOCTYPE html>
     <html>
@@ -61,8 +58,7 @@ app.get('/', function(request, response) {
       </div>  
     </body>
     </html>
-    `)
-    
+    `);    
   });
 });
 
