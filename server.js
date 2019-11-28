@@ -68,7 +68,7 @@ app.get('/', function(request, response) {
 
 app.post('/create-item', function(request, response) {
   db.collection('items').insertOne({text: request.body.item}, function() {
-    response.send('<h1>Successfully inserted a new ToDo to the Database!');
+    response.redirect('/')
   })
 })
 
