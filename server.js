@@ -5,6 +5,7 @@ let db;
 let connectionString = 'mongodb+srv://ToDoAppUser:OeafkB6FMJn3JQPL@cluster0-ixsd4.mongodb.net/ToDoApp?retryWrites=true&w=majority';
 
 app.use(express.urlencoded({extended: false}))
+app.use(express.json())
 app.use(express.static('public'));
 
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, client) {
@@ -55,7 +56,8 @@ app.get('/', function(request, response) {
           </li>`
           }).join('')}
         </ul>    
-      </div>  
+      </div>
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  
       <script src="browser.js"></script>
     </body>
     </html>
@@ -67,5 +69,10 @@ app.post('/create-item', function(request, response) {
   db.collection('items').insertOne({text: request.body.item}, function() {
     response.redirect('/')
   })
+})
+
+app.post('/update-item', function(request, response) {
+  console.log(request.body.text);
+  response.redirect('/')
 })
 
