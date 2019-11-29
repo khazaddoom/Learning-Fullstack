@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended: false}))
 // Allow and serve Asynchronous requests to our backend
 app.use(express.json())
 
-// Serve a static files from public folder as directly from root path it is not possible
+// Serve a static files from public folder as directly from root path is not possible
 app.use(express.static('public'));
 
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, client) {
