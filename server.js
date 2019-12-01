@@ -55,7 +55,7 @@ app.get('/', function(request, response) {
             return `<li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
             <span class="item-text">${item.text}</span>
             <div>
-              <button class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
+              <button data-id="${item._id}" class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
               <button class="delete-me btn btn-danger btn-sm">Delete</button>
             </div>
           </li>`
@@ -77,7 +77,8 @@ app.post('/create-item', function(request, response) {
 })
 
 app.post('/update-item', function(request, response) {
-  console.log(request.body.text);
-  response.redirect('/')
+  // db.collection('items').findOneAndUpdate(new db.ObjectId(), {$set: {text: request.body.text}}, function(err, result) {
+  //   console.log(result)
+  // })
 })
 
