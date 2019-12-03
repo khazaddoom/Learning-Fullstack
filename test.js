@@ -2,7 +2,7 @@ let express = require('express');
 
 let ourApp = express();
 
-ourApp.use(express.urlencoded({extended: false}));
+
 
 ourApp.get('/', function(req, res) {
     res.send(`
@@ -28,5 +28,7 @@ ourApp.post('/answer', function(req, res) {
         `);
     }
 });
+
+ourApp.use(express.urlencoded({extended: false}));
 
 ourApp.listen(3000);
