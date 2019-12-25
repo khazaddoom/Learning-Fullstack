@@ -10,4 +10,16 @@ document.addEventListener('click', function(e) {
             })
         }       
     }
+    else if (e.target.classList.contains('delete-me')) {
+
+        if(confirm('This will permanently delete this item. Agree?')) {
+            axios.post('/delete-item', {id: e.target.getAttribute('data-id')})
+                .then(function (message) {
+                    e.target.parentElement.parentElement.remove();
+                })
+                .catch(function (err) {
+                    console.error(err)
+                });
+        }        
+    }
 })
