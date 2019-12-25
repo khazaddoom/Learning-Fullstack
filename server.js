@@ -47,15 +47,15 @@ app.get('/', function(request, response) {
         <h1 class="display-4 text-center py-1">To-Do App</h1>
         
         <div class="jumbotron p-3 shadow-sm">
-          <form method="POST" action="/create-item">
+          <form id="todo-form" method="POST" action="/create-item">
             <div class="d-flex align-items-center">
-              <input name="item" autofocus autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
+              <input id="todo-input" name="item" autofocus autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
               <button class="btn btn-primary">Add New Item</button>
             </div>
           </form>
         </div>
         
-        <ul class="list-group pb-5">
+        <ul id="todo-list" class="list-group pb-5">
           ${items.map(function(item) {
             return `<li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
             <span class="item-text">${item.text}</span>
@@ -76,8 +76,8 @@ app.get('/', function(request, response) {
 });
 
 app.post('/create-item', function(request, response) {
-  db.collection('items').insertOne({text: request.body.item}, function() {
-    response.redirect('/')
+  db.collection('items').insertOne({text: request.body.text}, function (err, info) {
+    response.json(info.ops[0])
   })
 })
 
