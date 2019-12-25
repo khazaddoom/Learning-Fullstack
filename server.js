@@ -2,7 +2,7 @@ let express = require('express');
 let mongodb = require('mongodb');
 let app = express();
 let db;
-let connectionString = 'mongodb+srv://ToDoAppUser:OeafkB6FMJn3JQPL@cluster0-ixsd4.mongodb.net/ToDoApp?retryWrites=true&w=majority';
+let connectionString = 'mongodb+srv://ToDoAppUser:SQ8eiCdR5LpdNYGg@cluster0-ixsd4.mongodb.net/ToDoApp?retryWrites=true&w=majority';
 
 // Allow and Serve external GET POST or other similar full page requests to our backend!
 app.use(express.urlencoded({extended: false}))
@@ -14,6 +14,11 @@ app.use(express.json())
 app.use(express.static('public'));
 
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, client) {
+
+  if(err) {
+    console.error(err);
+    return;
+  }
   
   db = client.db();
 
