@@ -89,8 +89,8 @@ app.post('/update-item', function(request, response) {
 
 app.post('/delete-item', function(request, response) {
 
-  
-  
-  response.send(`You clicked on ${request.body.id}`);
+  db.collection('items').deleteOne({_id: new mongodb.ObjectId(request.body.id)}, function() {
+    response.send('Success!')
+  })
 })
 
