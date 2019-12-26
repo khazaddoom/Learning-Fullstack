@@ -1,5 +1,6 @@
 let express = require('express');
 let mongodb = require('mongodb');
+let sanitizeHtml = require('sanitize-html');
 let app = express();
 let db;
 let connectionString = 'mongodb+srv://ToDoAppUser:SQ8eiCdR5LpdNYGg@cluster0-ixsd4.mongodb.net/ToDoApp?retryWrites=true&w=majority';
@@ -26,7 +27,18 @@ mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: t
       console.log('Server listening on Port 3000...')
   });
 
-})
+});
+
+app.use(passwordProtected);
+
+function passwordProtected(request, response, next) {
+  response.set('WWW-Authenticate', 'Basic realm="My ToDo App"');
+  if (request.headers.authorization == 'Basic Z2FuZXNoOjMxRGVjMTk4NiQ=') {
+    next();
+  } else {
+    response.status(401).send('Unauthorized!')
+  }
+}
 
 
 
@@ -56,17 +68,11 @@ app.get('/', function(request, response) {
         </div>
         
         <ul id="todo-list" class="list-group pb-5">
-          ${items.map(function(item) {
-            return `<li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-            <span class="item-text">${item.text}</span>
-            <div>
-              <button data-id="${item._id}" class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
-              <button data-id="${item._id}" class="delete-me btn btn-danger btn-sm">Delete</button>
-            </div>
-          </li>`
-          }).join('')}
         </ul>    
       </div>
+      <script>
+        var items = ${JSON.stringify(items)};
+      </script>
       <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  
       <script src="browser.js"></script>
     </body>
@@ -76,13 +82,21 @@ app.get('/', function(request, response) {
 });
 
 app.post('/create-item', function(request, response) {
-  db.collection('items').insertOne({text: request.body.text}, function (err, info) {
+  const safeText = sanitizeHtml(request.body.text, {
+    allowedTags: [],
+    allowedAttributes: []
+  })
+  db.collection('items').insertOne({text: safeText}, function (err, info) {
     response.json(info.ops[0])
   })
 })
 
 app.post('/update-item', function(request, response) {
-  db.collection('items').findOneAndUpdate({_id: new mongodb.ObjectId(request.body.id)}, {$set: {text: request.body.text}}, function(err, result) {
+  const safeText = sanitizeHtml(request.body.text, {
+    allowedTags: [],
+    allowedAttributes: []
+  })
+  db.collection('items').findOneAndUpdate({_id: new mongodb.ObjectId(request.body.id)}, {$set: {text: safeText}}, function(err, result) {
     response.send('Success!')
   })
 })
